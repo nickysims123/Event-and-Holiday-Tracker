@@ -4,8 +4,7 @@ import os
 import sqlite3
 from typing import Any
 import datetime
-
-
+from event_tracker.utils.random_utils import get_holiday_status
 
 
 @dataclass
@@ -51,7 +50,12 @@ def check_distance(date: str) -> int:
     return int(difference.days)
 
 def check_if_holiday() -> bool:
-    pass
+    """
+    Returns True if today is a holiday, and False if not.
+    
+    """
+    return get_holiday_status()
+
 
 def list_holidays_this_week() -> list:
     pass
