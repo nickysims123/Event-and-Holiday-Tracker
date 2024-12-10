@@ -114,6 +114,15 @@ def test_login(mock_cursor):
 
     #Get the actual result:
     result = login(username="user123", password="5678")
+
+    expected_query = normalize_whitespace("""
+                SELECT password_hash, salt FROM users WHERE username = ?
+            """)
+
+    actual_query = normalize_whitespace(mock_cursor.execute.call_args[0][0])
+
+    assert actual_query == expected_query, "The SQL query did not match the expected structure."
+    
     expected_result = True 
 
     assert result == expected_result, f"Expected {expected_result}, but got {result}"
