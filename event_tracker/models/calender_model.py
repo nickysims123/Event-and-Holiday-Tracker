@@ -4,7 +4,7 @@ import os
 import sqlite3
 from typing import Any
 import datetime
-from event_tracker.utils.random_utils import get_holiday_status
+from event_tracker.utils.holiday_utils import get_holiday_status
 
 
 @dataclass
@@ -23,9 +23,9 @@ def create_event(id: int, event_name: str, date: str) -> None:
 def delete_event() -> None:
     pass
 
-def check_distance(date: str) -> int:
+def check_time_until(date: str) -> int:
     """
-    Returns the distance in days between today and a given date.
+    Returns the time in days between today and a given date.
 
     Args:
         date (str): the date to calculate the number of days until.
@@ -39,7 +39,7 @@ def check_distance(date: str) -> int:
     try:
         datetime.date.fromisoformat(date)
     except ValueError:
-        raise ValueError("Incorrect data format, should be YYYY-MM-DD")
+        raise ValueError("Incorrect data format, should be YYYY-MM-DD.")
     
     today = datetime.date.today()
     
