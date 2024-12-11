@@ -48,7 +48,7 @@ check_db() {
 
 ###############################################
 #
-# User 
+# Functions
 #
 ###############################################
 
@@ -71,7 +71,7 @@ test_check_time_until() {
   fi
 }
 
-# Function to test check_if_holiday
+
 test_check_if_holiday() {
   echo "Testing check_if_holiday..."
   response=$(python3 -c "
