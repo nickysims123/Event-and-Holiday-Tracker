@@ -6,5 +6,5 @@ CREATE TABLE events (
     event_year INTEGER NOT NULL,
     event_name TEXT NOT NULL UNIQUE,
     is_religious BOOLEAN NOT NULL,
-    deleted BOOLEAN DEFAULT FALSE
+    is_deleted BOOLEAN DEFAULT FALSE
 );
