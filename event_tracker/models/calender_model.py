@@ -7,22 +7,6 @@ import datetime
 from event_tracker.utils.holiday_utils import get_holiday_status
 
 
-@dataclass
-class Event:
-    id: int
-    event_name: str
-    date: str
-
-    def __post_init__(self):
-        ### check if date is valid/format date?
-        pass
-    
-def create_event(id: int, event_name: str, date: str) -> None:
-    pass
-
-def delete_event() -> None:
-    pass
-
 def check_time_until(date: str) -> int:
     """
     Returns the time in days between today and a given date.
@@ -56,12 +40,5 @@ def check_if_holiday() -> bool:
     """
     return get_holiday_status()
 
-
-def list_holidays_this_week() -> list:
-    pass
-
-def format_date(date: str) -> str:
-    #take in str and formats into proper date format?
-    pass
 
 
