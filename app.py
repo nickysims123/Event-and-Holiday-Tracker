@@ -112,7 +112,7 @@ def add_event() -> Response:
 
         # Call the celndar_model function to add the combatant to the database
         app.logger.info('Adding event: %s, %d, %d, %d, %s', event_name, event_day, event_month, event_year, str(is_religious))
-        calendar_model.add_meal(event_name, event_day, event_month, event_year, is_religious)
+        calendar_model.add_event(event_name, event_day, event_month, event_year, is_religious)
 
         app.logger.info("Event added: %s", event_name)
         return make_response(jsonify({'status': 'success', 'event': event_name}), 201)
@@ -137,11 +137,11 @@ def delete_event(id: int) -> Response:
         calendar_model.delete_event(id)
         return make_response(jsonify({'status': 'event deleted'}), 200)
     except Exception as e:
-        app.logger.error(f"Error deleting meal: {e}")
+        app.logger.error(f"Error deleting event: {e}")
         return make_response(jsonify({'error': str(e)}), 500)
     
 
-@app.route('/api/get-meal-by-id/<int:meal_id>', methods=['GET'])
+@app.route('/api/get-event-by-id/<int:event_id>', methods=['GET'])
 def get_event_by_id(id: int) -> Response:
     """
     Route to get an event by its ID.
@@ -150,7 +150,7 @@ def get_event_by_id(id: int) -> Response:
         - id (int): The ID of the event.
 
     Returns:
-        JSON response with the meal details or error message.
+        JSON response with the event details or error message.
     """
     try:
         app.logger.info(f"Retrieving event by ID: {id}")
@@ -173,7 +173,7 @@ def get_events() -> Response:
     Route to get the a list of all events.
 
     Returns:
-        JSON response with a sorted leaderboard of meals.
+        JSON response with a sorted leaderboard of events.
     Raises:
         500 error if there is an issue generating the leaderboard.
     """
