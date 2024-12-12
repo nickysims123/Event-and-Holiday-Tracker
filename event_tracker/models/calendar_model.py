@@ -115,7 +115,7 @@ def get_events() -> dict[str, Any]:
 
         leaderboard = []
         for row in rows:
-            meal = {
+            event = {
                 'id': row[0],
                 'event_name': row[1],
                 'event_day': row[2],
@@ -123,7 +123,7 @@ def get_events() -> dict[str, Any]:
                 'event_year': row[4],
                 'is_religious': row[5]
             }
-            leaderboard.append(meal)
+            leaderboard.append(event)
 
         logger.info("Events retrieved successfully")
         return leaderboard
@@ -145,7 +145,7 @@ def get_event_by_id(id: int) -> Event:
     try:
         with get_db_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute("SELECT id, event_name, event_day, event_month, event_year, is_religious, deleted FROM meals WHERE id = ?", (id,))
+            cursor.execute("SELECT id, event_name, event_day, event_month, event_year, is_religious, deleted FROM events WHERE id = ?", (id,))
             row = cursor.fetchone()
 
             if row:
@@ -160,6 +160,17 @@ def get_event_by_id(id: int) -> Event:
     except sqlite3.Error as e:
         logger.error("Database error: %s", str(e))
         raise e
+    
+###########################################################
+#
+# NOTE: This following function is not used in the application.
+# It is not tested nor called upon in our application.
+# Mock documentation can be found in the README.md file. The idea
+# was scrapped as we already have 'PUT' commands in the application.
+# For this implementation, this function would need all 4 paramters
+# to execute.    
+#
+###########################################################
     
 def update_event_date(id: int, day: int, month: int, year: int) -> None:
     """

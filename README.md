@@ -2,9 +2,21 @@ Welcome to our event tracker! This program lets you create events
 stored in a relational database. These events can be created, updated, requested,
 and deleted.
 
+You can set up this code environment by running :
+    - chmod +x setup_venv.sh
+    - chmod +x run_docker.sh
+
+Now, you can run all tests by the commands:
+    - python -m pytest .
+    - ./smoketest.sh
+
 It's functionality includes checking distances between event dates, 
 checking if the current date is a holiday given an external API call, 
 The database also allows for soft deletion of events.
+
+ISSUE LOG:
+    - Unit Testing is variable for the functions provided on the main branch. There seems to be an issue with using Mocker as a parameter for my mock_cursor fixture. It has worked some times out of many. The issue lies with the SQL code in the test_calendar_model.py.
+    - There is one test fixture that outright does not work: test_update_event. This fixture breaks because of the mock call to the fake DB: it cannot successfully check the data of the event after running the mock call.
 
 ROUTES:
 
@@ -34,7 +46,8 @@ Route: /create-event
         }
     Example Response: 
         - {
-            'status': 'success', 'event': event_name",
+            'status': 'success',
+            'event': 'Christmas',
             201
         }
 
@@ -66,7 +79,7 @@ Route: /get-event-by-id
     Response Format: JSON
     Success Response Example: 
         - Code: 200
-        - Content: {'status' : 'success', 'event' : 'event}
+        - Content: {'status' : 'success', 'event' : event}
     Example Request:
         - {
             "id" : 1
@@ -74,7 +87,8 @@ Route: /get-event-by-id
     Example Response: 
         - {
             'status' : 'success',
-            200
+            'event': 'Christmas',
+            200,
         }
 
 Route: /get-events
@@ -91,6 +105,43 @@ Route: /get-events
         - None
     Example Response: 
     - {
-        'status' : success',
+        'status' : 'success',
+        'events' : ['Christmas', 'Halloween'],
         200
     }
+
+Route: /update_event
+
+    Request Type: PUT
+    Purpose: Change the date of a given event
+    Request Body: 
+        - {
+            id (int): The ID of the event to be altered
+            day (int): The new day of the event.
+            month (int): The new month of the event.
+            year (int): The new year of the event. 
+        }
+    Response Format: JSON
+    Success Response Example:
+        - Code: 200
+        - Content: {
+            'status': 'success',
+            'new_day': event_day,
+            'new_month': event_month,
+            'new_year': event_year
+            }
+    Example Request:
+        - {
+            'id': 1
+            'day': 2
+            'month': 8
+            'year': 2010
+        }
+    Example Response:
+        - {
+            'status': success,
+            'new_day': 3,
+            'new_month': 10,
+            'new_year': 2012,
+            200
+        }

@@ -106,9 +106,9 @@ def add_event() -> Response:
         try:
             month = int(event_month)
             if not isinstance(month, int) or month <= 0:
-                raise ValueError("Event_day must have a positive value.")
+                raise ValueError("Event_month must have a positive value.")
         except ValueError as e:
-            return make_response(jsonify({'error': 'Day must be a valid int less than 31.'}), 400)
+            return make_response(jsonify({'error': 'Month must be a valid int less than 13.'}), 400)
 
         # Call the celndar_model function to add the combatant to the database
         app.logger.info('Adding event: %s, %d, %d, %d, %s', event_name, event_day, event_month, event_year, str(is_religious))
@@ -186,7 +186,3 @@ def get_events() -> Response:
     except Exception as e:
         app.logger.error(f"Error generating events data: {e}")
         return make_response(jsonify({'error': str(e)}), 500)
-
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)

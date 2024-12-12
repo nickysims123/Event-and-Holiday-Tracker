@@ -10,6 +10,7 @@ from event_tracker.models.calendar_model import (
     delete_event,
     get_event_by_id,
     get_events,
+    update_event_date,
 )
 
 ######################################################
@@ -194,3 +195,20 @@ def test_get_events(mock_cursor):
 
     assert result == expected_result, f"Expected {expected_result}, got {result}"
 
+def test_update_event(mock_cursor):
+    # Simulate that the event exists (id = 1)
+    mock_cursor.fetchall.return_value = [
+        (1, "Event 1", 1, 1, 2022, True),
+    ]
+
+    # Call the function to update the event date
+    update_event_date(1, 2, 2, 2023)
+
+    # Normalize the SQL for the UPDATE query
+    expected_update_sql = normalize_whitespace("UPDATE events SET event_day = ?, event_month = ?, event_year = ? WHERE id = ?")
+
+    # Access the call to `execute()` using `call_args_list`
+    actual_update_sql = normalize_whitespace(mock_cursor.execute.call_args_list[0][0][0])
+
+    # Ensure the correct SQL query was executed
+    assert actual_update_sql == expected_update_sql, "The UPDATE query did not match the expected structure."
